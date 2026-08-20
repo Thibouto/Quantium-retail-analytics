@@ -1,0 +1,330 @@
+---
+title: "Quantium Virtual Internship - Retail Strategy and Analytics - Task 1"
+author: "Thibaut Raiola"
+date: "2026-08-03"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Load libraries and data
+
+```{r load-libraries, message=FALSE}
+library(dplyr)
+library(ggplot2)
+library(kableExtra)
+```
+
+```{r load-data}
+chips <- read.csv('/Users/thibautraiola/DATA-ANALYST/Project4Portfolio/Forage/Quantium - DA /1. Data preparation & customer analytics/Done/cleaned_data.csv')
+```
+
+## Data overview
+
+```{r data-overview}
+head(chips)
+summary(chips)
+str(chips)
+```
+
+## Data preparation
+
+```{r date-conversion}
+chips$DATE <- as.Date(chips$DATE, "%Y-%m-%d")
+```
+
+## Helper functions
+
+```{r create-bar-plot-function}
+create_bar_plot <- function(data, x_col, y_col, title, x_label, y_label, fill_label = x_label, text_size = 8) {
+  data |> 
+    ggplot(aes(x = reorder({{ x_col }}, -{{ y_col }}), y = {{ y_col }}, fill = {{ x_col }})) +
+    geom_bar(stat = "identity") +
+    theme_minimal() +
+    theme(axis.text.x = element_text(angle = 45, hjust = 1, size = text_size)) +
+    ggtitle(title) +
+    labs(x = x_label, y = y_label, fill = fill_label)
+}
+```
+
+## Customer segments analysis
+
+### Number of unique customers per segment
+
+#### By LIFESTAGE
+
+```{r customers-by-lifestage}
+customer_by_lifestage <- chips |> 
+  group_by(LIFESTAGE) |> 
+  summarise(n_customers = n_distinct(LYLTY_CARD_NBR)) |> 
+  arrange(desc(n_customers))
+
+customer_by_lifestage |> 
+  ggplot(aes(x = reorder(LIFESTAGE, -n_customers), y = n_customers, fill = LIFESTAGE)) +
+  geom_bar(stat = "identity") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) +
+  ggtitle("Unique customer count per LIFESTAGE") +
+  labs(x = "Lifestage segment", y = "Unique customer count")
+```
+
+Retirees, older singles/couples, and young singles/couples segments dominate by far, each with more than 14k unique customers. Older and young families fall between 9k and 10k, midage singles/couples account for around 7k, and new families represent only about 2.5k.
+
+#### By PREMIUM_CUSTOMER
+
+```{r customers-by-premium}
+customer_by_premium_customer <- chips |> 
+  group_by(PREMIUM_CUSTOMER) |> 
+  summarise(n_customers = n_distinct(LYLTY_CARD_NBR)) |> 
+  arrange(desc(n_customers))
+
+create_bar_plot(
+  data = customer_by_premium_customer,
+  x_col = PREMIUM_CUSTOMER,
+  y_col = n_customers,
+  title = "Unique customer count per premium customer segment",
+  x_label = "Premium customer segment",
+  y_label = "Unique customer count"
+)
+```
+
+The mainstream segment naturally has the highest number of unique customers (29k), followed by budget (24k) and premium (19k).
+
+### Number of transactions per segment
+
+#### By PREMIUM_CUSTOMER
+
+```{r transactions-by-premium}
+transaction_by_premium_customer <- chips |> 
+  group_by(PREMIUM_CUSTOMER) |> 
+  summarise(n_transactions = n())
+
+create_bar_plot(
+  data = transaction_by_premium_customer,
+  x_col = PREMIUM_CUSTOMER,
+  y_col = n_transactions,
+  title = "Transaction count per premium customer segment",
+  x_label = "Premium customer segment",
+  y_label = "Transaction count"
+)
+```
+
+We observe that the mainstream segment naturally accounts for the highest number of transactions, around 94k, while the premium segment records just over 60k transactions, and budget sits around 87k.
+
+#### By LIFESTAGE
+
+```{r transactions-by-lifestage}
+transaction_by_lifestage <- chips |> 
+  group_by(LIFESTAGE) |> 
+  summarise(n_transactions = n())
+
+create_bar_plot(
+  data = transaction_by_lifestage,
+  x_col = LIFESTAGE,
+  y_col = n_transactions,
+  title = "Transaction count per lifestage",
+  x_label = "Lifestage customer segment",
+  y_label = "Transaction count"
+)
+```
+
+Here, the dominant segments are older singles/couples (50k), retirees (46k), and older families (45k), which is not surprising given that the first two also have the highest number of customers. However, while the young singles/couples group is the 3rd largest segment in terms of unique customers, it ranks only 5th in terms of transaction count. A further analysis of the average number of purchases per customer by segment will be necessary. Finally, the new families segment is by far the smallest, with barely 7k transactions, consistent with it also having the fewest unique customers.
+
+#### Average transaction count per customer, by LIFESTAGE
+
+```{r avg-transactions-by-lifestage, message=FALSE}
+transaction_per_customer <- chips |> 
+  group_by(LYLTY_CARD_NBR, PREMIUM_CUSTOMER, LIFESTAGE) |> 
+  summarise(n_transactions = n())
+
+avg_transactions_by_lifestage <- transaction_per_customer |> 
+  group_by(LIFESTAGE) |> 
+  summarise(avg_transactions = round(mean(n_transactions), 2))
+
+create_bar_plot(
+  data = avg_transactions_by_lifestage,
+  x_col = LIFESTAGE,
+  y_col = avg_transactions,
+  title = "Average transaction count per customer, by LIFESTAGE",
+  x_label = "Lifestage segments",
+  y_label = "Average transaction count"
+)
+```
+
+The young singles/couples segment ranks last, with fewer than 2.5 transactions per customer. In contrast, the older families segment averages more than 4.5 transactions per customer, which explains the gap observed earlier. Additionally, the young families segment shows a strong signal, averaging 4.5 transactions per customer, well ahead of the 3rd-ranked group (3.5).
+
+## Financial analysis
+
+### Total sales by segment
+
+```{r sales-by-segment-table, message=FALSE}
+sales_by_segment <- chips |> 
+  group_by(LIFESTAGE, PREMIUM_CUSTOMER) |> 
+  summarise(total_sales = sum(TOT_SALES))
+
+sales_by_segment |> 
+  arrange(desc(total_sales))
+
+sales_by_lifestage_total <- sales_by_segment |> 
+  group_by(LIFESTAGE) |> 
+  summarise(total_sales = sum(total_sales)) |> 
+  arrange(desc(total_sales))
+
+sales_by_lifestage_total |> 
+  kable(caption = "Total sales by LIFESTAGE") |> 
+  kable_minimal()
+```
+
+```{r sales-by-segment-plot}
+sales_by_segment |> 
+  ggplot(aes(x = reorder(LIFESTAGE, -total_sales, sum), y = total_sales, fill = PREMIUM_CUSTOMER)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) +
+  ggtitle("Total sales by LIFESTAGE and premium customer segment") +
+  labs(x = "Lifestage segment", y = "Total sales ($)", fill = "Premium customer segment")
+```
+
+First, no LIFESTAGE segment has the Premium customer segment as its main contributor to sales. Only the 'Older singles/couples' segment shows notable interest from Premium customers, with an almost even split across the 3 customer segments, and the 'Midage singles/couples' LIFESTAGE, where Premium customers rank 2nd, well ahead of Budget customers.
+
+The Mainstream customer segment is particularly dominant among 'Young singles/couples', reflecting the mainstream positioning of these products. In fact, for this specific case, the Mainstream segment outweighs the other two segments combined, a unique case here. Among 'Retirees', the order is the same (Mainstream - Budget - Premium), but with a strong, though less overwhelming, dominance of the first.
+
+Regarding the Budget customer segment, a fairly similar situation emerges: among 'Older families' and 'Young families', this segment clearly dominates sales; the order remains the same, with Mainstream in 2nd position, closely followed by Premium.
+
+Finally, 'New families' show a total sales figure so low that it risks skewing the analysis, but contributions are fairly balanced across segments: Budget represents twice as much as Premium, with Mainstream sitting in between.
+
+### Average price per unit, by LIFESTAGE
+
+```{r add-price-per-unit-column}
+chips <- chips |> 
+  mutate(price_per_unit = TOT_SALES / PROD_QTY)
+```
+
+```{r avg-price-per-unit, message=FALSE}
+avg_price_per_unit <- chips |> 
+  group_by(LIFESTAGE, PREMIUM_CUSTOMER) |> 
+  summarise(avg_price_per_unit = mean(price_per_unit))
+
+avg_price_per_unit |> 
+  group_by(LIFESTAGE) |> 
+  summarise(avg_price = round(mean(avg_price_per_unit), 2)) |> 
+  arrange(desc(avg_price))
+
+avg_price_per_unit |> 
+  ggplot(aes(x = reorder(LIFESTAGE, -avg_price_per_unit), y = avg_price_per_unit, fill = PREMIUM_CUSTOMER)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  theme_minimal() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, size = 8)) +
+  ggtitle("Average price per unit by LIFESTAGE and premium customer segment") +
+  labs(x = "Lifestage segment", y = "Average price per unit ($)", fill = "Premium customer segment")
+```
+
+Overall, the differences in average price per unit are not significant across the different LIFESTAGE segments, all ranging between \$3.73 and \$3.89. Moreover, with rare exceptions, within a given LIFESTAGE segment, the different customer segments show relatively balanced averages.
+
+The LIFESTAGE segments with the highest average price per unit are new families and retirees, both averaging \$3.89 across all customer segments combined. At the other end, older families and young families show the lowest averages, at \$3.73 and \$3.74 respectively.
+
+However, among midage singles/couples and young singles/couples, the Mainstream segment shows a notably higher average compared to the other customer segments within the same group. In fact, only the Mainstream segment among young singles/couples has an average above \$4.
+
+### Statistical significance test
+
+```{r price-ttest}
+target_segment <- chips |> 
+  filter(LIFESTAGE %in% c("YOUNG SINGLES/COUPLES", "MIDAGE SINGLES/COUPLES"))
+
+mainstream_prices <- target_segment |> 
+  filter(PREMIUM_CUSTOMER == 'Mainstream') |> 
+  pull(price_per_unit)
+
+budget_premium_prices <- target_segment |> 
+  filter(PREMIUM_CUSTOMER != 'Mainstream') |> 
+  pull(price_per_unit)
+
+t.test(mainstream_prices, budget_premium_prices)
+```
+
+With a p-value below 2.2e-16, the observed difference between customer segments is very likely real. The \$0.33 difference, or 9%, indicates a non-negligible gap at scale. Finally, we can be 95% confident that the true difference between the observed segments lies between \$0.316 and \$0.351.
+
+### Deep dive - Mainstream young singles/couples
+
+```{r brand-analysis-target-segment}
+revenue_by_brand_target_segment <- chips |> 
+  filter(PREMIUM_CUSTOMER == 'Mainstream') |> 
+  filter(LIFESTAGE == 'YOUNG SINGLES/COUPLES') |> 
+  group_by(BRAND_NAME) |> 
+  summarise(tot = sum(TOT_SALES))
+
+revenue_by_brand_target_segment |> 
+  arrange(desc(tot))
+
+create_bar_plot(
+  data = revenue_by_brand_target_segment,
+  x_col = BRAND_NAME,
+  y_col = tot,
+  title = "Total sales by brand - Mainstream young singles/couples",
+  x_label = "Brand",
+  y_label = "Total sales ($)"
+)
+```
+
+We observe a clear dominance from the Kettle brand, which records more than \$35,000 in sales, while the runner-up, Doritos, sits at only \$20,925, and Pringles ranks third with \$16,000.
+
+```{r pack-size-analysis-target-segment}
+pack_size_target_segment <- chips |> 
+  filter(PREMIUM_CUSTOMER == 'Mainstream') |> 
+  filter(LIFESTAGE == 'YOUNG SINGLES/COUPLES') |> 
+  group_by(PACK_SIZE) |> 
+  summarise(units_sold = sum(PROD_QTY))
+
+pack_size_target_segment |> 
+  arrange(desc(units_sold))
+
+create_bar_plot(
+  data = pack_size_target_segment,
+  x_col = PACK_SIZE,
+  y_col = units_sold,
+  title = "Units sold by pack size - Mainstream young singles/couples",
+  x_label = "Pack size (g)",
+  y_label = "Units sold"
+)
+```
+
+We notice that the most popular pack size is 175g, with more than 9,000 units sold, while in second position we find 150g packs, with nearly 6,000 units sold, and rounding out the podium, 134g packs with 4,300 units.
+
+```{r brand-affinity}
+brand_pct_target <- chips |> 
+  filter(PREMIUM_CUSTOMER == 'Mainstream', LIFESTAGE == 'YOUNG SINGLES/COUPLES') |> 
+  group_by(BRAND_NAME) |> 
+  summarise(units = sum(PROD_QTY)) |> 
+  mutate(pct_target = units / sum(units) * 100)
+
+brand_pct_rest <- chips |> 
+  filter(PREMIUM_CUSTOMER != 'Mainstream' | LIFESTAGE != 'YOUNG SINGLES/COUPLES') |> 
+  group_by(BRAND_NAME) |> 
+  summarise(units = sum(PROD_QTY)) |> 
+  mutate(pct_rest = units / sum(units) * 100)
+
+brand_affinity <- brand_pct_target |> 
+  select(BRAND_NAME, pct_target) |> 
+  left_join(brand_pct_rest |> select(BRAND_NAME, pct_rest), by = "BRAND_NAME") |> 
+  mutate(affinity_index = round(pct_target / pct_rest * 100, 1))
+
+brand_affinity |> 
+  mutate(diff_from_avg = affinity_index - 100) |> 
+  ggplot(aes(x = reorder(BRAND_NAME, diff_from_avg), y = diff_from_avg, fill = diff_from_avg > 0)) +
+  geom_col() +
+  geom_hline(yintercept = 0) +
+  coord_flip() +
+  theme_minimal() +
+  labs(
+    title = "Brand affinity - Mainstream young singles/couples vs rest of population",
+    x = "Brand",
+    y = "Index difference from 100 (over/under-indexed)",
+    fill = "Over-indexed"
+  )
+```
+
+We clearly observe a preference for certain brands within our target segment: brands such as Tyrrells, Twisties, and Doritos show sales volumes around 20% higher among our target group. Conversely, the Burger and Woolworths brands show a -40% difference.
+
+Finally, regarding the brands previously identified as the most popular (Kettle, Doritos, and Pringles), we observe that they are also consumed more within this group, by an average of 20%, compared to the rest of the population.

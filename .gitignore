@@ -1,0 +1,20 @@
+# macOS
+.DS_Store
+
+# R
+.Rhistory
+.Rproj.user/
+
+# Claude Code local config
+.claude/
+
+# Forage official solution files (not for public distribution)
+Solutions/
+2. Experimentation and uplift testing/Files/DraftSolutions.pdf
+Instructions/
+
+# PowerPoint lock files
+~$*.pptx
+
+# Local backup copies (kept on disk, not published)
+3. Analytics and commercial application/Files/3.0 Category review - Chips - BACKUP.key

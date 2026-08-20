@@ -1,0 +1,776 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+\documentclass[
+]{article}
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{amsmath,amssymb}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\usepackage{booktabs}
+\usepackage{longtable}
+\usepackage{array}
+\usepackage{multirow}
+\usepackage{wrapfig}
+\usepackage{float}
+\usepackage{colortbl}
+\usepackage{pdflscape}
+\usepackage{tabularx}
+\usepackage{xltabular}
+\usepackage{threeparttable}
+\usepackage{threeparttablex}
+\usepackage[normalem]{ulem}
+\usepackage{makecell}
+\usepackage{xcolor}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={Quantium Virtual Internship - Retail Strategy and Analytics - Task 1},
+  pdfauthor={Thibaut Raiola},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{Quantium Virtual Internship - Retail Strategy and Analytics -
+Task 1}
+\author{Thibaut Raiola}
+\date{2026-08-03}
+
+\begin{document}
+\maketitle
+
+\subsection{Load libraries and data}\label{load-libraries-and-data}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{library}\NormalTok{(dplyr)}
+\FunctionTok{library}\NormalTok{(ggplot2)}
+\FunctionTok{library}\NormalTok{(kableExtra)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chips }\OtherTok{\textless{}{-}} \FunctionTok{read.csv}\NormalTok{(}\StringTok{\textquotesingle{}/Users/thibautraiola/DATA{-}ANALYST/Project4Portfolio/Forage/Quantium {-} DA /1. Data preparation \& customer analytics/Done/cleaned\_data.csv\textquotesingle{}}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Data overview}\label{data-overview}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{head}\NormalTok{(chips)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##         DATE STORE_NBR LYLTY_CARD_NBR TXN_ID PROD_NBR
+## 1 2018-10-17         1           1000      1        5
+## 2 2019-05-14         1           1307    348       66
+## 3 2019-05-20         1           1343    383       61
+## 4 2018-08-17         2           2373    974       69
+## 5 2018-08-18         2           2426   1038      108
+## 6 2019-05-16         4           4149   3333       16
+##                                  PROD_NAME PROD_QTY TOT_SALES PACK_SIZE
+## 1   Natural Chip        Compny SeaSalt175g        2       6.0       175
+## 2                 CCs Nacho Cheese    175g        3       6.3       175
+## 3   Smiths Crinkle Cut  Chips Chicken 170g        2       2.9       170
+## 4   Smiths Chip Thinly  S/Cream&Onion 175g        5      15.0       175
+## 5 Kettle Tortilla ChpsHny&Jlpno Chili 150g        3      13.8       150
+## 6 Smiths Crinkle Chips Salt & Vinegar 330g        1       5.7       330
+##   BRAND_NAME              LIFESTAGE PREMIUM_CUSTOMER
+## 1    Natural  YOUNG SINGLES/COUPLES          Premium
+## 2        CCs MIDAGE SINGLES/COUPLES           Budget
+## 3     Smiths MIDAGE SINGLES/COUPLES           Budget
+## 4     Smiths MIDAGE SINGLES/COUPLES           Budget
+## 5     Kettle MIDAGE SINGLES/COUPLES           Budget
+## 6     Smiths MIDAGE SINGLES/COUPLES           Budget
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(chips)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      DATE             STORE_NBR   LYLTY_CARD_NBR        TXN_ID       
+##  Length:248229      Min.   :  1   Min.   :   1000   Min.   :      1  
+##  Class :character   1st Qu.: 70   1st Qu.:  70015   1st Qu.:  67564  
+##  Mode  :character   Median :130   Median : 130360   Median : 135150  
+##                     Mean   :135   Mean   : 135524   Mean   : 135126  
+##                     3rd Qu.:203   3rd Qu.: 203081   3rd Qu.: 202644  
+##                     Max.   :272   Max.   :2373711   Max.   :2415841  
+##     PROD_NBR    PROD_NAME            PROD_QTY       TOT_SALES     
+##  Min.   :  1   Length:248229      Min.   :1.000   Min.   : 1.700  
+##  1st Qu.: 27   Class :character   1st Qu.:2.000   1st Qu.: 5.800  
+##  Median : 52   Mode  :character   Median :2.000   Median : 7.400  
+##  Mean   : 56                      Mean   :1.906   Mean   : 7.303  
+##  3rd Qu.: 86                      3rd Qu.:2.000   3rd Qu.: 8.800  
+##  Max.   :114                      Max.   :5.000   Max.   :29.500  
+##    PACK_SIZE      BRAND_NAME         LIFESTAGE         PREMIUM_CUSTOMER  
+##  Min.   : 70.0   Length:248229      Length:248229      Length:248229     
+##  1st Qu.:150.0   Class :character   Class :character   Class :character  
+##  Median :170.0   Mode  :character   Mode  :character   Mode  :character  
+##  Mean   :175.4                                                           
+##  3rd Qu.:175.0                                                           
+##  Max.   :380.0
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{str}\NormalTok{(chips)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 'data.frame':    248229 obs. of  12 variables:
+##  $ DATE            : chr  "2018-10-17" "2019-05-14" "2019-05-20" "2018-08-17" ...
+##  $ STORE_NBR       : int  1 1 1 2 2 4 4 5 7 7 ...
+##  $ LYLTY_CARD_NBR  : int  1000 1307 1343 2373 2426 4149 4196 5026 7150 7215 ...
+##  $ TXN_ID          : int  1 348 383 974 1038 3333 3539 4525 6900 7176 ...
+##  $ PROD_NBR        : int  5 66 61 69 108 16 24 42 52 16 ...
+##  $ PROD_NAME       : chr  "Natural Chip        Compny SeaSalt175g" "CCs Nacho Cheese    175g" "Smiths Crinkle Cut  Chips Chicken 170g" "Smiths Chip Thinly  S/Cream&Onion 175g" ...
+##  $ PROD_QTY        : int  2 3 2 5 3 1 1 1 2 1 ...
+##  $ TOT_SALES       : num  6 6.3 2.9 15 13.8 5.7 3.6 3.9 7.2 5.7 ...
+##  $ PACK_SIZE       : int  175 175 170 175 150 330 210 150 210 330 ...
+##  $ BRAND_NAME      : chr  "Natural" "CCs" "Smiths" "Smiths" ...
+##  $ LIFESTAGE       : chr  "YOUNG SINGLES/COUPLES" "MIDAGE SINGLES/COUPLES" "MIDAGE SINGLES/COUPLES" "MIDAGE SINGLES/COUPLES" ...
+##  $ PREMIUM_CUSTOMER: chr  "Premium" "Budget" "Budget" "Budget" ...
+\end{verbatim}
+
+\subsection{Data preparation}\label{data-preparation}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chips}\SpecialCharTok{$}\NormalTok{DATE }\OtherTok{\textless{}{-}} \FunctionTok{as.Date}\NormalTok{(chips}\SpecialCharTok{$}\NormalTok{DATE, }\StringTok{"\%Y{-}\%m{-}\%d"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Helper functions}\label{helper-functions}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{create\_bar\_plot }\OtherTok{\textless{}{-}} \ControlFlowTok{function}\NormalTok{(data, x\_col, y\_col, title, x\_label, y\_label, }\AttributeTok{fill\_label =}\NormalTok{ x\_label, }\AttributeTok{text\_size =} \DecValTok{8}\NormalTok{) \{}
+\NormalTok{  data }\SpecialCharTok{|\textgreater{}} 
+    \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder}\NormalTok{(\{\{ x\_col \}\}, }\SpecialCharTok{{-}}\NormalTok{\{\{ y\_col \}\}), }\AttributeTok{y =}\NormalTok{ \{\{ y\_col \}\}, }\AttributeTok{fill =}\NormalTok{ \{\{ x\_col \}\})) }\SpecialCharTok{+}
+    \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+}
+    \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+    \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{, }\AttributeTok{size =}\NormalTok{ text\_size)) }\SpecialCharTok{+}
+    \FunctionTok{ggtitle}\NormalTok{(title) }\SpecialCharTok{+}
+    \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =}\NormalTok{ x\_label, }\AttributeTok{y =}\NormalTok{ y\_label, }\AttributeTok{fill =}\NormalTok{ fill\_label)}
+\NormalTok{\}}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{Customer segments
+analysis}\label{customer-segments-analysis}
+
+\subsubsection{Number of unique customers per
+segment}\label{number-of-unique-customers-per-segment}
+
+\paragraph{By LIFESTAGE}\label{by-lifestage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{customer\_by\_lifestage }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(LIFESTAGE) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n\_customers =} \FunctionTok{n\_distinct}\NormalTok{(LYLTY\_CARD\_NBR)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(n\_customers))}
+
+\NormalTok{customer\_by\_lifestage }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder}\NormalTok{(LIFESTAGE, }\SpecialCharTok{{-}}\NormalTok{n\_customers), }\AttributeTok{y =}\NormalTok{ n\_customers, }\AttributeTok{fill =}\NormalTok{ LIFESTAGE)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{, }\AttributeTok{size =} \DecValTok{8}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Unique customer count per LIFESTAGE"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Lifestage segment"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Unique customer count"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1.1-Customer-analytics_files/figure-latex/customers-by-lifestage-1.pdf}}
+
+Retirees, older singles/couples, and young singles/couples segments
+dominate by far, each with more than 14k unique customers. Older and
+young families fall between 9k and 10k, midage singles/couples account
+for around 7k, and new families represent only about 2.5k.
+
+\paragraph{By PREMIUM\_CUSTOMER}\label{by-premium_customer}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{customer\_by\_premium\_customer }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(PREMIUM\_CUSTOMER) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n\_customers =} \FunctionTok{n\_distinct}\NormalTok{(LYLTY\_CARD\_NBR)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(n\_customers))}
+
+\FunctionTok{create\_bar\_plot}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ customer\_by\_premium\_customer,}
+  \AttributeTok{x\_col =}\NormalTok{ PREMIUM\_CUSTOMER,}
+  \AttributeTok{y\_col =}\NormalTok{ n\_customers,}
+  \AttributeTok{title =} \StringTok{"Unique customer count per premium customer segment"}\NormalTok{,}
+  \AttributeTok{x\_label =} \StringTok{"Premium customer segment"}\NormalTok{,}
+  \AttributeTok{y\_label =} \StringTok{"Unique customer count"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1.1-Customer-analytics_files/figure-latex/customers-by-premium-1.pdf}}
+
+The mainstream segment naturally has the highest number of unique
+customers (29k), followed by budget (24k) and premium (19k).
+
+\subsubsection{Number of transactions per
+segment}\label{number-of-transactions-per-segment}
+
+\paragraph{By PREMIUM\_CUSTOMER}\label{by-premium_customer-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{transaction\_by\_premium\_customer }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(PREMIUM\_CUSTOMER) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n\_transactions =} \FunctionTok{n}\NormalTok{())}
+
+\FunctionTok{create\_bar\_plot}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ transaction\_by\_premium\_customer,}
+  \AttributeTok{x\_col =}\NormalTok{ PREMIUM\_CUSTOMER,}
+  \AttributeTok{y\_col =}\NormalTok{ n\_transactions,}
+  \AttributeTok{title =} \StringTok{"Transaction count per premium customer segment"}\NormalTok{,}
+  \AttributeTok{x\_label =} \StringTok{"Premium customer segment"}\NormalTok{,}
+  \AttributeTok{y\_label =} \StringTok{"Transaction count"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1.1-Customer-analytics_files/figure-latex/transactions-by-premium-1.pdf}}
+
+We observe that the mainstream segment naturally accounts for the
+highest number of transactions, around 94k, while the premium segment
+records just over 60k transactions, and budget sits around 87k.
+
+\paragraph{By LIFESTAGE}\label{by-lifestage-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{transaction\_by\_lifestage }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(LIFESTAGE) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n\_transactions =} \FunctionTok{n}\NormalTok{())}
+
+\FunctionTok{create\_bar\_plot}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ transaction\_by\_lifestage,}
+  \AttributeTok{x\_col =}\NormalTok{ LIFESTAGE,}
+  \AttributeTok{y\_col =}\NormalTok{ n\_transactions,}
+  \AttributeTok{title =} \StringTok{"Transaction count per lifestage"}\NormalTok{,}
+  \AttributeTok{x\_label =} \StringTok{"Lifestage customer segment"}\NormalTok{,}
+  \AttributeTok{y\_label =} \StringTok{"Transaction count"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1.1-Customer-analytics_files/figure-latex/transactions-by-lifestage-1.pdf}}
+
+Here, the dominant segments are older singles/couples (50k), retirees
+(46k), and older families (45k), which is not surprising given that the
+first two also have the highest number of customers. However, while the
+young singles/couples group is the 3rd largest segment in terms of
+unique customers, it ranks only 5th in terms of transaction count. A
+further analysis of the average number of purchases per customer by
+segment will be necessary. Finally, the new families segment is by far
+the smallest, with barely 7k transactions, consistent with it also
+having the fewest unique customers.
+
+\paragraph{Average transaction count per customer, by
+LIFESTAGE}\label{average-transaction-count-per-customer-by-lifestage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{transaction\_per\_customer }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(LYLTY\_CARD\_NBR, PREMIUM\_CUSTOMER, LIFESTAGE) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{n\_transactions =} \FunctionTok{n}\NormalTok{())}
+
+\NormalTok{avg\_transactions\_by\_lifestage }\OtherTok{\textless{}{-}}\NormalTok{ transaction\_per\_customer }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(LIFESTAGE) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{avg\_transactions =} \FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(n\_transactions), }\DecValTok{2}\NormalTok{))}
+
+\FunctionTok{create\_bar\_plot}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ avg\_transactions\_by\_lifestage,}
+  \AttributeTok{x\_col =}\NormalTok{ LIFESTAGE,}
+  \AttributeTok{y\_col =}\NormalTok{ avg\_transactions,}
+  \AttributeTok{title =} \StringTok{"Average transaction count per customer, by LIFESTAGE"}\NormalTok{,}
+  \AttributeTok{x\_label =} \StringTok{"Lifestage segments"}\NormalTok{,}
+  \AttributeTok{y\_label =} \StringTok{"Average transaction count"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1.1-Customer-analytics_files/figure-latex/avg-transactions-by-lifestage-1.pdf}}
+
+The young singles/couples segment ranks last, with fewer than 2.5
+transactions per customer. In contrast, the older families segment
+averages more than 4.5 transactions per customer, which explains the gap
+observed earlier. Additionally, the young families segment shows a
+strong signal, averaging 4.5 transactions per customer, well ahead of
+the 3rd-ranked group (3.5).
+
+\subsection{Financial analysis}\label{financial-analysis}
+
+\subsubsection{Total sales by segment}\label{total-sales-by-segment}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sales\_by\_segment }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(LIFESTAGE, PREMIUM\_CUSTOMER) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{total\_sales =} \FunctionTok{sum}\NormalTok{(TOT\_SALES))}
+
+\NormalTok{sales\_by\_segment }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(total\_sales))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 21 x 3
+## # Groups:   LIFESTAGE [7]
+##    LIFESTAGE             PREMIUM_CUSTOMER total_sales
+##    <chr>                 <chr>                  <dbl>
+##  1 OLDER FAMILIES        Budget               157613.
+##  2 YOUNG SINGLES/COUPLES Mainstream           147999.
+##  3 RETIREES              Mainstream           145837.
+##  4 YOUNG FAMILIES        Budget               130352.
+##  5 OLDER SINGLES/COUPLES Budget               128130.
+##  6 OLDER SINGLES/COUPLES Mainstream           125178.
+##  7 OLDER SINGLES/COUPLES Premium              124067.
+##  8 RETIREES              Budget               106276.
+##  9 OLDER FAMILIES        Mainstream            96927.
+## 10 RETIREES              Premium               91669.
+## # i 11 more rows
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sales\_by\_lifestage\_total }\OtherTok{\textless{}{-}}\NormalTok{ sales\_by\_segment }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(LIFESTAGE) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{total\_sales =} \FunctionTok{sum}\NormalTok{(total\_sales)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(total\_sales))}
+
+\NormalTok{sales\_by\_lifestage\_total }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{kable}\NormalTok{(}\AttributeTok{caption =} \StringTok{"Total sales by LIFESTAGE"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{kable\_minimal}\NormalTok{()}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[t]{lr}
+\caption{\label{tab:sales-by-segment-table}Total sales by LIFESTAGE}\\
+\toprule
+LIFESTAGE & total\_sales\\
+\midrule
+OLDER SINGLES/COUPLES & 377375.15\\
+RETIREES & 343781.90\\
+OLDER FAMILIES & 330180.00\\
+YOUNG FAMILIES & 296015.40\\
+YOUNG SINGLES/COUPLES & 244478.10\\
+\addlinespace
+MIDAGE SINGLES/COUPLES & 173391.70\\
+NEW FAMILIES & 47510.15\\
+\bottomrule
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{sales\_by\_segment }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder}\NormalTok{(LIFESTAGE, }\SpecialCharTok{{-}}\NormalTok{total\_sales, sum), }\AttributeTok{y =}\NormalTok{ total\_sales, }\AttributeTok{fill =}\NormalTok{ PREMIUM\_CUSTOMER)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{, }\AttributeTok{size =} \DecValTok{8}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Total sales by LIFESTAGE and premium customer segment"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Lifestage segment"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Total sales ($)"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"Premium customer segment"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1.1-Customer-analytics_files/figure-latex/sales-by-segment-plot-1.pdf}}
+
+First, no LIFESTAGE segment has the Premium customer segment as its main
+contributor to sales. Only the `Older singles/couples' segment shows
+notable interest from Premium customers, with an almost even split
+across the 3 customer segments, and the `Midage singles/couples'
+LIFESTAGE, where Premium customers rank 2nd, well ahead of Budget
+customers.
+
+The Mainstream customer segment is particularly dominant among `Young
+singles/couples', reflecting the mainstream positioning of these
+products. In fact, for this specific case, the Mainstream segment
+outweighs the other two segments combined, a unique case here. Among
+`Retirees', the order is the same (Mainstream - Budget - Premium), but
+with a strong, though less overwhelming, dominance of the first.
+
+Regarding the Budget customer segment, a fairly similar situation
+emerges: among `Older families' and `Young families', this segment
+clearly dominates sales; the order remains the same, with Mainstream in
+2nd position, closely followed by Premium.
+
+Finally, `New families' show a total sales figure so low that it risks
+skewing the analysis, but contributions are fairly balanced across
+segments: Budget represents twice as much as Premium, with Mainstream
+sitting in between.
+
+\subsubsection{Average price per unit, by
+LIFESTAGE}\label{average-price-per-unit-by-lifestage}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{chips }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{price\_per\_unit =}\NormalTok{ TOT\_SALES }\SpecialCharTok{/}\NormalTok{ PROD\_QTY)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{avg\_price\_per\_unit }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(LIFESTAGE, PREMIUM\_CUSTOMER) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{avg\_price\_per\_unit =} \FunctionTok{mean}\NormalTok{(price\_per\_unit))}
+
+\NormalTok{avg\_price\_per\_unit }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(LIFESTAGE) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{avg\_price =} \FunctionTok{round}\NormalTok{(}\FunctionTok{mean}\NormalTok{(avg\_price\_per\_unit), }\DecValTok{2}\NormalTok{)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(avg\_price))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 7 x 2
+##   LIFESTAGE              avg_price
+##   <chr>                      <dbl>
+## 1 NEW FAMILIES                3.89
+## 2 RETIREES                    3.89
+## 3 OLDER SINGLES/COUPLES       3.86
+## 4 MIDAGE SINGLES/COUPLES      3.83
+## 5 YOUNG SINGLES/COUPLES       3.79
+## 6 YOUNG FAMILIES              3.74
+## 7 OLDER FAMILIES              3.73
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{avg\_price\_per\_unit }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder}\NormalTok{(LIFESTAGE, }\SpecialCharTok{{-}}\NormalTok{avg\_price\_per\_unit), }\AttributeTok{y =}\NormalTok{ avg\_price\_per\_unit, }\AttributeTok{fill =}\NormalTok{ PREMIUM\_CUSTOMER)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_bar}\NormalTok{(}\AttributeTok{stat =} \StringTok{"identity"}\NormalTok{, }\AttributeTok{position =} \StringTok{"dodge"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme}\NormalTok{(}\AttributeTok{axis.text.x =} \FunctionTok{element\_text}\NormalTok{(}\AttributeTok{angle =} \DecValTok{45}\NormalTok{, }\AttributeTok{hjust =} \DecValTok{1}\NormalTok{, }\AttributeTok{size =} \DecValTok{8}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{ggtitle}\NormalTok{(}\StringTok{"Average price per unit by LIFESTAGE and premium customer segment"}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}\AttributeTok{x =} \StringTok{"Lifestage segment"}\NormalTok{, }\AttributeTok{y =} \StringTok{"Average price per unit ($)"}\NormalTok{, }\AttributeTok{fill =} \StringTok{"Premium customer segment"}\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1.1-Customer-analytics_files/figure-latex/avg-price-per-unit-1.pdf}}
+
+Overall, the differences in average price per unit are not significant
+across the different LIFESTAGE segments, all ranging between \$3.73 and
+\$3.89. Moreover, with rare exceptions, within a given LIFESTAGE
+segment, the different customer segments show relatively balanced
+averages.
+
+The LIFESTAGE segments with the highest average price per unit are new
+families and retirees, both averaging \$3.89 across all customer
+segments combined. At the other end, older families and young families
+show the lowest averages, at \$3.73 and \$3.74 respectively.
+
+However, among midage singles/couples and young singles/couples, the
+Mainstream segment shows a notably higher average compared to the other
+customer segments within the same group. In fact, only the Mainstream
+segment among young singles/couples has an average above \$4.
+
+\subsubsection{Statistical significance
+test}\label{statistical-significance-test}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{target\_segment }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(LIFESTAGE }\SpecialCharTok{\%in\%} \FunctionTok{c}\NormalTok{(}\StringTok{"YOUNG SINGLES/COUPLES"}\NormalTok{, }\StringTok{"MIDAGE SINGLES/COUPLES"}\NormalTok{))}
+
+\NormalTok{mainstream\_prices }\OtherTok{\textless{}{-}}\NormalTok{ target\_segment }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(PREMIUM\_CUSTOMER }\SpecialCharTok{==} \StringTok{\textquotesingle{}Mainstream\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pull}\NormalTok{(price\_per\_unit)}
+
+\NormalTok{budget\_premium\_prices }\OtherTok{\textless{}{-}}\NormalTok{ target\_segment }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(PREMIUM\_CUSTOMER }\SpecialCharTok{!=} \StringTok{\textquotesingle{}Mainstream\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{pull}\NormalTok{(price\_per\_unit)}
+
+\FunctionTok{t.test}\NormalTok{(mainstream\_prices, budget\_premium\_prices)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+##  Welch Two Sample t-test
+## 
+## data:  mainstream_prices and budget_premium_prices
+## t = 37.796, df = 55213, p-value < 2.2e-16
+## alternative hypothesis: true difference in means is not equal to 0
+## 95 percent confidence interval:
+##  0.3166391 0.3512758
+## sample estimates:
+## mean of x mean of y 
+##  4.033359  3.699402
+\end{verbatim}
+
+With a p-value below 2.2e-16, the observed difference between customer
+segments is very likely real. The \$0.33 difference, or 9\%, indicates a
+non-negligible gap at scale. Finally, we can be 95\% confident that the
+true difference between the observed segments lies between \$0.316 and
+\$0.351.
+
+\subsubsection{Deep dive - Mainstream young
+singles/couples}\label{deep-dive---mainstream-young-singlescouples}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{revenue\_by\_brand\_target\_segment }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(PREMIUM\_CUSTOMER }\SpecialCharTok{==} \StringTok{\textquotesingle{}Mainstream\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(LIFESTAGE }\SpecialCharTok{==} \StringTok{\textquotesingle{}YOUNG SINGLES/COUPLES\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(BRAND\_NAME) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{tot =} \FunctionTok{sum}\NormalTok{(TOT\_SALES))}
+
+\NormalTok{revenue\_by\_brand\_target\_segment }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(tot))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 20 x 2
+##    BRAND_NAME    tot
+##    <chr>       <dbl>
+##  1 Kettle     35424.
+##  2 Doritos    20926.
+##  3 Pringles   16006.
+##  4 Smiths     14928.
+##  5 Infuzions   8749.
+##  6 Twisties    7540.
+##  7 Tostitos    7238.
+##  8 Thins       7217.
+##  9 Cobs        6145.
+## 10 Red         4958.
+## 11 Tyrrells    4801.
+## 12 Grain       4201.
+## 13 Cheezels    3318.
+## 14 Natural     2130 
+## 15 Woolworths  1606.
+## 16 Cheetos      899.
+## 17 CCs          851.
+## 18 French       429 
+## 19 Sunbites     391.
+## 20 Burger       244.
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{create\_bar\_plot}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ revenue\_by\_brand\_target\_segment,}
+  \AttributeTok{x\_col =}\NormalTok{ BRAND\_NAME,}
+  \AttributeTok{y\_col =}\NormalTok{ tot,}
+  \AttributeTok{title =} \StringTok{"Total sales by brand {-} Mainstream young singles/couples"}\NormalTok{,}
+  \AttributeTok{x\_label =} \StringTok{"Brand"}\NormalTok{,}
+  \AttributeTok{y\_label =} \StringTok{"Total sales ($)"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1.1-Customer-analytics_files/figure-latex/brand-analysis-target-segment-1.pdf}}
+
+We observe a clear dominance from the Kettle brand, which records more
+than \$35,000 in sales, while the runner-up, Doritos, sits at only
+\$20,925, and Pringles ranks third with \$16,000.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{pack\_size\_target\_segment }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(PREMIUM\_CUSTOMER }\SpecialCharTok{==} \StringTok{\textquotesingle{}Mainstream\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(LIFESTAGE }\SpecialCharTok{==} \StringTok{\textquotesingle{}YOUNG SINGLES/COUPLES\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(PACK\_SIZE) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{units\_sold =} \FunctionTok{sum}\NormalTok{(PROD\_QTY))}
+
+\NormalTok{pack\_size\_target\_segment }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{arrange}\NormalTok{(}\FunctionTok{desc}\NormalTok{(units\_sold))}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 20 x 2
+##    PACK_SIZE units_sold
+##        <int>      <int>
+##  1       175       9237
+##  2       150       5863
+##  3       134       4326
+##  4       110       3850
+##  5       170       2926
+##  6       330       2220
+##  7       165       2016
+##  8       380       1165
+##  9       270       1153
+## 10       210       1055
+## 11       135        535
+## 12       250        520
+## 13       200        325
+## 14       190        271
+## 15       160        232
+## 16        90        230
+## 17       180        130
+## 18        70        110
+## 19       125        109
+## 20       220        106
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{create\_bar\_plot}\NormalTok{(}
+  \AttributeTok{data =}\NormalTok{ pack\_size\_target\_segment,}
+  \AttributeTok{x\_col =}\NormalTok{ PACK\_SIZE,}
+  \AttributeTok{y\_col =}\NormalTok{ units\_sold,}
+  \AttributeTok{title =} \StringTok{"Units sold by pack size {-} Mainstream young singles/couples"}\NormalTok{,}
+  \AttributeTok{x\_label =} \StringTok{"Pack size (g)"}\NormalTok{,}
+  \AttributeTok{y\_label =} \StringTok{"Units sold"}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1.1-Customer-analytics_files/figure-latex/pack-size-analysis-target-segment-1.pdf}}
+
+We notice that the most popular pack size is 175g, with more than 9,000
+units sold, while in second position we find 150g packs, with nearly
+6,000 units sold, and rounding out the podium, 134g packs with 4,300
+units.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{brand\_pct\_target }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(PREMIUM\_CUSTOMER }\SpecialCharTok{==} \StringTok{\textquotesingle{}Mainstream\textquotesingle{}}\NormalTok{, LIFESTAGE }\SpecialCharTok{==} \StringTok{\textquotesingle{}YOUNG SINGLES/COUPLES\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(BRAND\_NAME) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{units =} \FunctionTok{sum}\NormalTok{(PROD\_QTY)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{pct\_target =}\NormalTok{ units }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(units) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{)}
+
+\NormalTok{brand\_pct\_rest }\OtherTok{\textless{}{-}}\NormalTok{ chips }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{filter}\NormalTok{(PREMIUM\_CUSTOMER }\SpecialCharTok{!=} \StringTok{\textquotesingle{}Mainstream\textquotesingle{}} \SpecialCharTok{|}\NormalTok{ LIFESTAGE }\SpecialCharTok{!=} \StringTok{\textquotesingle{}YOUNG SINGLES/COUPLES\textquotesingle{}}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{group\_by}\NormalTok{(BRAND\_NAME) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{summarise}\NormalTok{(}\AttributeTok{units =} \FunctionTok{sum}\NormalTok{(PROD\_QTY)) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{pct\_rest =}\NormalTok{ units }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(units) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{)}
+
+\NormalTok{brand\_affinity }\OtherTok{\textless{}{-}}\NormalTok{ brand\_pct\_target }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{select}\NormalTok{(BRAND\_NAME, pct\_target) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{left\_join}\NormalTok{(brand\_pct\_rest }\SpecialCharTok{|\textgreater{}} \FunctionTok{select}\NormalTok{(BRAND\_NAME, pct\_rest), }\AttributeTok{by =} \StringTok{"BRAND\_NAME"}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{affinity\_index =} \FunctionTok{round}\NormalTok{(pct\_target }\SpecialCharTok{/}\NormalTok{ pct\_rest }\SpecialCharTok{*} \DecValTok{100}\NormalTok{, }\DecValTok{1}\NormalTok{))}
+
+\NormalTok{brand\_affinity }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{mutate}\NormalTok{(}\AttributeTok{diff\_from\_avg =}\NormalTok{ affinity\_index }\SpecialCharTok{{-}} \DecValTok{100}\NormalTok{) }\SpecialCharTok{|\textgreater{}} 
+  \FunctionTok{ggplot}\NormalTok{(}\FunctionTok{aes}\NormalTok{(}\AttributeTok{x =} \FunctionTok{reorder}\NormalTok{(BRAND\_NAME, diff\_from\_avg), }\AttributeTok{y =}\NormalTok{ diff\_from\_avg, }\AttributeTok{fill =}\NormalTok{ diff\_from\_avg }\SpecialCharTok{\textgreater{}} \DecValTok{0}\NormalTok{)) }\SpecialCharTok{+}
+  \FunctionTok{geom\_col}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{geom\_hline}\NormalTok{(}\AttributeTok{yintercept =} \DecValTok{0}\NormalTok{) }\SpecialCharTok{+}
+  \FunctionTok{coord\_flip}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{theme\_minimal}\NormalTok{() }\SpecialCharTok{+}
+  \FunctionTok{labs}\NormalTok{(}
+    \AttributeTok{title =} \StringTok{"Brand affinity {-} Mainstream young singles/couples vs rest of population"}\NormalTok{,}
+    \AttributeTok{x =} \StringTok{"Brand"}\NormalTok{,}
+    \AttributeTok{y =} \StringTok{"Index difference from 100 (over/under{-}indexed)"}\NormalTok{,}
+    \AttributeTok{fill =} \StringTok{"Over{-}indexed"}
+\NormalTok{  )}
+\end{Highlighting}
+\end{Shaded}
+
+\pandocbounded{\includegraphics[keepaspectratio]{1.1-Customer-analytics_files/figure-latex/brand-affinity-1.pdf}}
+
+We clearly observe a preference for certain brands within our target
+segment: brands such as Tyrrells, Twisties, and Doritos show sales
+volumes around 20\% higher among our target group. Conversely, the
+Burger and Woolworths brands show a -40\% difference.
+
+Finally, regarding the brands previously identified as the most popular
+(Kettle, Doritos, and Pringles), we observe that they are also consumed
+more within this group, by an average of 20\%, compared to the rest of
+the population.
+
+\end{document}
