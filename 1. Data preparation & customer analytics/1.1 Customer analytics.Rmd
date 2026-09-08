@@ -2,7 +2,7 @@
 title: "Quantium Virtual Internship - Retail Strategy and Analytics - Task 1"
 author: "Thibaut Raiola"
 date: "2026-08-03"
-output: pdf_document
+output: github_document
 ---
 
 ```{r setup, include=FALSE}
@@ -14,11 +14,11 @@ knitr::opts_chunk$set(echo = TRUE)
 ```{r load-libraries, message=FALSE}
 library(dplyr)
 library(ggplot2)
-library(kableExtra)
+library(knitr)
 ```
 
 ```{r load-data}
-chips <- read.csv('/Users/thibautraiola/DATA-ANALYST/Project4Portfolio/Forage/Quantium - DA /1. Data preparation & customer analytics/cleaned_data.csv')
+chips <- read.csv('cleaned_data.csv')
 ```
 
 ## Data overview
@@ -172,9 +172,8 @@ sales_by_lifestage_total <- sales_by_segment |>
   summarise(total_sales = sum(total_sales)) |> 
   arrange(desc(total_sales))
 
-sales_by_lifestage_total |> 
-  kable(caption = "Total sales by LIFESTAGE") |> 
-  kable_minimal()
+sales_by_lifestage_total |>
+  kable(caption = "Total sales by LIFESTAGE")
 ```
 
 ```{r sales-by-segment-plot}
