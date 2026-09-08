@@ -5,8 +5,13 @@ This folder covers the first part of the Quantium retail analytics case study: c
 ## Contents
 
 - **`1.0 Data cleaning.ipynb`** (Python): merges the transaction and customer loyalty datasets, checks data quality, and removes outliers.
-- **[`1.1-Customer-analytics.md`](<1.1-Customer-analytics.md>)** (rendered from `1.1 Customer analytics.Rmd`, R): profiles customer segments by life stage and spending tier (Budget/Mainstream/Premium), analyzes sales and pricing patterns, and runs a statistical test to confirm a key finding. Read the `.md` for the formatted version with output and plots, GitHub doesn't render the `.Rmd` source directly.
+- **`1.1 Customer analytics.Rmd`** (R) / **[rendered report](<report/1.1-Customer-analytics.md>)**: profiles customer segments by life stage and spending tier (Budget/Mainstream/Premium), analyzes sales and pricing patterns, and runs a statistical test to confirm a key finding. GitHub doesn't render `.Rmd` source directly, read the `report/` version for the formatted output with plots.
 - **`cleaned_data.csv`**: the merged, cleaned dataset used as input for both this analysis and Part 2.
+
+If you edit `1.1 Customer analytics.Rmd`, regenerate the report with:
+```r
+rmarkdown::render("1.1 Customer analytics.Rmd", output_dir = "report")
+```
 
 ## Data quality checks
 
