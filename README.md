@@ -8,7 +8,7 @@ This project was completed as part of the Quantium Virtual Internship (Forage). 
 Cleans and merges transaction and customer loyalty data, then profiles customer segments by life stage and spending tier. Identifies Mainstream Young Singles/Couples as the priority segment, and confirms with a statistical test that this segment pays a significant price premium over Budget/Premium shoppers in the same life stage.
 
 - `1.0 Data cleaning.ipynb` (Python)
-- `1.1 Customer analytics.Rmd` (R)
+- `1.1 Customer analytics.Rmd` (R) / `1.1-Customer-analytics.pdf` (rendered version, GitHub doesn't preview `.Rmd` source)
 
 ### [2. Experimentation and uplift testing](<2. Experimentation and uplift testing>)
 Assesses whether a new store layout, trialled in three stores, produced a statistically significant sales uplift. Matches each trial store to a control store based on pre-trial performance, then tests the trial period against a confidence interval built from pre-trial variability.
