@@ -18,7 +18,7 @@ library(kableExtra)
 ```
 
 ```{r load-data}
-chips <- read.csv('/Users/thibautraiola/DATA-ANALYST/Project4Portfolio/Forage/Quantium - DA /1. Data preparation & customer analytics/Done/cleaned_data.csv')
+chips <- read.csv('/Users/thibautraiola/DATA-ANALYST/Project4Portfolio/Forage/Quantium - DA /1. Data preparation & customer analytics/cleaned_data.csv')
 ```
 
 ## Data overview
