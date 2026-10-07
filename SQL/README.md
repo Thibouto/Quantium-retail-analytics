@@ -2,9 +2,11 @@
 
 SQL redo of the Quantium retail case study (Forage virtual internship). The goal of this version is to answer one business question using SQL only: **which customer segments spend the most, and why?**
 
+> This version focuses on SQL. The full case study (business context, data cleaning choices, statistical tests, store trial uplift analysis and final presentation) is documented in the [Python/R version](../Python/README.md).
+
 ## Business question
 
-Quantium's retail client wants to know which customer segments to target. For each combination of `LIFESTAGE` (7 values) and `PREMIUM_CUSTOMER` (Budget, Mainstream, Premium), 21 segments in total, I break down spend per customer into three levers:
+Which customer segments should the client target? For each combination of `LIFESTAGE` (7 values) and `PREMIUM_CUSTOMER` (Budget, Mainstream, Premium), 21 segments in total, I break down spend per customer into three levers:
 
 > sales per customer = purchase frequency x basket size x price per unit
 
@@ -16,7 +18,7 @@ Quantium's retail client wants to know which customer segments to target. For ea
 
 ## Data
 
-Transaction data joined with customer attributes (`transaction_joined` in BigQuery): about 265k transaction lines, 72.6k customers, 1.93M in total sales. The cleaning step is in [`01_data_cleaning.sql`](01_data_cleaning.sql).
+Transaction data joined with customer attributes (`transaction_joined` in BigQuery): about 265k transaction lines, 72.6k customers, 1.93M in total sales. The cleaning step is in [`01_data_cleaning.sql`](01_data_cleaning.sql). For a description of the raw data, see the [Python/R version](../Python/README.md).
 
 ## Method
 
@@ -27,7 +29,7 @@ Transaction data joined with customer attributes (`transaction_joined` in BigQue
 
 Checks run on the results:
 - Frequency x basket size x price per unit matches sales per customer (up to rounding).
-- Orders of magnitude are plausible (basket size never below 1, price per unit of a few euros).
+- Orders of magnitude are plausible (basket size never below 1, price per unit of a few dollars).
 - Segment totals reconcile with the table totals.
 
 ## Key findings
