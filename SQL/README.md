@@ -16,7 +16,7 @@ Quantium's retail client wants to know which customer segments to target. For ea
 
 ## Data
 
-Transaction data joined with customer attributes (`transaction_joined` in BigQuery): about 265k transaction lines, 72.6k customers, 1.93M in total sales. The cleaning step is in sql/01_data_cleaning.sql.
+Transaction data joined with customer attributes (`transaction_joined` in BigQuery): about 265k transaction lines, 72.6k customers, 1.93M in total sales. The cleaning step is in [`01_data_cleaning.sql`](01_data_cleaning.sql).
 
 ## Method
 
@@ -55,8 +55,8 @@ Checks run on the results:
 
 | File | Content |
 |------|---------|
-| `sql/01_data_cleaning.sql` | Data cleaning (date and sales formats) and creation of `transaction_joined` |
-| `sql/02_data_analysis.sql` | 10 analysis queries, from lifestage totals to the final segment summary (query 10) |
+| [`01_data_cleaning.sql`](01_data_cleaning.sql) | Data cleaning (date and sales formats) and creation of `transaction_joined` |
+| [`02_data_analysis.sql`](02_data_analysis.sql) | 10 analysis queries, from lifestage totals to the final segment summary (query 10) |
 
 ## Tools
 
