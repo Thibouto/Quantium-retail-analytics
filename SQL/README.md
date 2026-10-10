@@ -11,7 +11,7 @@ SQL redo of the Quantium retail case study (Forage virtual internship), built to
 
 Transaction data joined with customer attributes (`transaction_joined` in BigQuery): about 265k transaction lines, 72.6k customers, 1.93M in total sales, from July 2018 to June 2019. The cleaning step is in [`01_data_cleaning.sql`](01_data_cleaning.sql).
 
-**Difference with the Python/R version:** the SQL cleaning only fixes formats (dates and sales). It does not yet apply the exclusions made in the Python/R version (salsa and dip products, which are not chips, and the outlier loyalty card 226000). The figures and the selected control stores therefore differ between the two versions.
+**Scope of this version:** the goal here is to show SQL techniques, so the cleaning only fixes formats (dates and sales). The full cleaning (excluding salsa and dip products, which are not chips, the outlier loyalty card 226000 and duplicate rows) is done in the [Python/R version](../Python/README.md), which is the reference analysis. The figures and the selected control stores therefore differ between the two versions. For business conclusions, refer to the Python/R version.
 
 ## Part 1: customer segment analysis
 

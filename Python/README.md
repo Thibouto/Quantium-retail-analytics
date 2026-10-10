@@ -27,3 +27,7 @@ Python (pandas, matplotlib, seaborn, scipy), R (dplyr, ggplot2), Jupyter, R Mark
 ## Data
 
 Source data provided by the Quantium Virtual Internship program (not included in this repository where restricted).
+
+## SQL version
+
+Parts 1 and 2 were also rebuilt in SQL (BigQuery) to showcase SQL skills, see the [SQL version](../SQL/README.md). This Python/R version remains the reference analysis.
