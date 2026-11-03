@@ -9,7 +9,7 @@ SQL redo of the Quantium retail case study (Forage virtual internship), built to
 
 ## Data
 
-Transaction data joined with customer attributes (`transaction_joined` in BigQuery): about 265k transaction lines, 72.6k customers, 1.93M in total sales, from July 2018 to June 2019. The cleaning step is in [`01_data_cleaning.sql`](01_data_cleaning.sql).
+Transaction data joined with customer attributes (`transaction_joined` in BigQuery): about 265k transaction lines, 72.6k customers, 1.93M in total sales, from July 2018 to June 2019. The cleaning step is in [`01_data_cleaning.sql`](01_data_cleaning.sql). The raw transactions were imported into BigQuery from [`data/QVI_transaction_data.csv`](data/QVI_transaction_data.csv), and the customer attributes from [`QVI_purchase_behaviour.csv`](<../Python/1. Data preparation & customer analytics/data/QVI_purchase_behaviour.csv>).
 
 **Scope of this version:** the goal here is to show SQL techniques, so the cleaning only fixes formats (dates and sales). The full cleaning (excluding salsa and dip products, which are not chips, the outlier loyalty card 226000 and duplicate rows) is done in the [Python/R version](../Python/README.md), which is the reference analysis. The figures and the selected control stores therefore differ between the two versions. For business conclusions, refer to the Python/R version.
 
@@ -114,6 +114,7 @@ Values are the difference between test store sales and scaled control sales. "si
 | [`01_data_cleaning.sql`](01_data_cleaning.sql) | Data cleaning (date and sales formats) and creation of `transaction_joined` |
 | [`02_customer_analysis.sql`](02_customer_analysis.sql) | 10 analysis queries, from lifestage totals to the final segment summary (query 10) |
 | [`03_store_matching.sql`](03_store_matching.sql) | Store trial analysis: control store selection, scaling, trial comparison and significance test |
+| [`data/QVI_transaction_data.csv`](data/QVI_transaction_data.csv) | Raw transaction data imported into BigQuery |
 
 ## Tools
 
