@@ -26,7 +26,7 @@ Python (pandas, matplotlib, seaborn, scipy), R (dplyr, ggplot2), Jupyter, R Mark
 
 ## Data
 
-Source data provided by the Quantium Virtual Internship program (not included in this repository where restricted).
+Source data provided by the Quantium Virtual Internship program (Forage), included in each part's `data/` folder.
 
 ## SQL version
 
